@@ -1431,6 +1431,7 @@ header .container .show {
 .discount .form textarea.input {
   resize: none;
   height: 200px;
+  outline: none;
 }
 .discount .content form input:focus {
   outline: none;
