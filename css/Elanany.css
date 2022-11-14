@@ -1596,7 +1596,7 @@ header .container .show {
 @keyframes up-and-down {
   0%,
   100% {
-    top: 0;
+    top: 0px;
   }
   50% {
     top: -50px;
