@@ -57,21 +57,43 @@ function starCount (el) {
 }
 
 
-let dataTime = new Date("Dec 31, 2022 23:59:59").getTime();
-let counter = setInterval(() => {
-  let time = new Date().getTime();
-  let dateDiff = dataTime - time;
-  let days = Math.floor(dateDiff / (1000 * 60 * 60 * 24));
-  let Hour = Math.floor((dateDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  let munites = Math.floor((dateDiff % (1000 * 60 * 60)) / (1000 * 60));
-  let secondes = Math.floor((dateDiff % (1000 * 60)) / (1000));
+function startCountdown() {
+  let year = new Date().getFullYear();
+  let initialTime = `Dec 31, ${year} 23:59:59`;
+  let dataTime = new Date(initialTime).getTime();
 
-  document.querySelector(".events .container .info .time .unit:first-child span" ).innerHTML = days < 10 ? `00${days}` : days;
-  document.querySelector(".events .container .info .time .unit:nth-child(2) span").innerHTML = Hour < 10 ? `0${Hour}` : Hour;
-  document.querySelector(".events .container .info .time .unit:nth-child(3) span").innerHTML = munites < 10 ? `0${munites}` : munites;
-  document.querySelector(".events .container .info .time .unit:nth-child(4) span").innerHTML = secondes < 10 ? `0${secondes}` : secondes;
+  let counter = setInterval(() => {
+    let time = new Date().getTime();
+    let dateDiff = dataTime - time;
 
-  if(dateDiff <= 0) {
-    clearInterval(counter);
-  }
-}, 1000)
+    if (dateDiff <= 0) {
+      clearInterval(counter);
+      year++;
+      startCountdown(); // بدء المؤقت من جديد
+      return;
+    }
+
+    let days = Math.floor(dateDiff / (1000 * 60 * 60 * 24));
+    let Hour = Math.floor(
+      (dateDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    let minutes = Math.floor((dateDiff % (1000 * 60 * 60)) / (1000 * 60));
+    let secondes = Math.floor((dateDiff % (1000 * 60)) / 1000);
+
+    document.querySelector(
+      ".events .container .info .time .unit:first-child span"
+    ).innerHTML = days < 10 ? `00${days}` : days;
+    document.querySelector(
+      ".events .container .info .time .unit:nth-child(2) span"
+    ).innerHTML = Hour < 10 ? `0${Hour}` : Hour;
+    document.querySelector(
+      ".events .container .info .time .unit:nth-child(3) span"
+    ).innerHTML = minutes < 10 ? `0${minutes}` : minutes;
+    document.querySelector(
+      ".events .container .info .time .unit:nth-child(4) span"
+    ).innerHTML = secondes < 10 ? `0${secondes}` : secondes;
+  }, 1000);
+}
+
+// بدء العداد
+startCountdown();
